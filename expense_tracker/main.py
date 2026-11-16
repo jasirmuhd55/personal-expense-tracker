@@ -5,7 +5,7 @@ from .config import STATIC_PATH
 from .database import initialize_database
 from .routers.expenses import router as expenses_router
 
-app = FastAPI(title="Personal Expense Tracker")
+app = FastAPI(title="MyExpense", description="Personal expense management")
 app.mount("/static", StaticFiles(directory=STATIC_PATH), name="static")
 app.include_router(expenses_router)
 

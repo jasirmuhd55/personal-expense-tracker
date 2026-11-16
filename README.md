@@ -1,6 +1,6 @@
-# Personal Expense Tracker
+# MyExpense
 
-A local personal expense tracker built with Python, FastAPI, SQLite, HTML, and CSS.
+Personal expense management application built with Python, FastAPI, SQLite, HTML, and CSS.
 
 ## Features
 
