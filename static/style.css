@@ -506,22 +506,23 @@ label {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .input-icon-prefix {
   position: absolute;
-  left: 12px;
-  color: var(--slate-400);
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--slate-500);
   pointer-events: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   font-weight: 700;
   font-size: 15px;
-}
-
-.input-with-icon input,
-.input-with-icon select {
-  padding-left: 36px;
+  line-height: 1;
+  z-index: 2;
+  user-select: none;
 }
 
 input[type="text"],
@@ -540,6 +541,13 @@ textarea {
   font-weight: 500;
   transition: all 0.2s ease;
   box-shadow: var(--shadow-xs);
+}
+
+.input-with-icon input,
+.input-with-icon input[type="number"],
+.input-with-icon input[type="text"],
+.input-with-icon select {
+  padding-left: 38px !important;
 }
 
 input[type="text"]:focus,
