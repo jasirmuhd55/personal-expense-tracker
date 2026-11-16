@@ -1,4 +1,5 @@
 from datetime import date
+from urllib.parse import urlencode
 
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import RedirectResponse
@@ -31,13 +32,13 @@ def index(
                 date.fromisoformat(value)
             except ValueError:
                 return RedirectResponse(
-                    url="/?message=" + label.replace(" ", "%20") + "%20is%20invalid.&message_type=error",
+                    url="/?" + urlencode({"message": f"{label} is invalid.", "message_type": "error"}),
                     status_code=303,
                 )
 
     if from_date and to_date and from_date > to_date:
         return RedirectResponse(
-            url="/?message=From%20date%20cannot%20be%20later%20than%20To%20date.&message_type=error",
+            url="/?" + urlencode({"message": "From date cannot be later than To date.", "message_type": "error"}),
             status_code=303,
         )
 
@@ -47,7 +48,7 @@ def index(
     if category:
         if category not in CATEGORIES:
             return RedirectResponse(
-                url="/?message=Invalid%20category%20filter.&message_type=error",
+                url="/?" + urlencode({"message": "Invalid category filter.", "message_type": "error"}),
                 status_code=303,
             )
         conditions.append("category = ?")
@@ -119,7 +120,7 @@ def add_expense(
     data, error = validate_expense(title, amount, category, expense_date, note)
     if error:
         return RedirectResponse(
-            url="/?message=" + error.replace(" ", "%20") + "&message_type=error",
+            url="/?" + urlencode({"message": error, "message_type": "error"}),
             status_code=303,
         )
 
@@ -133,7 +134,7 @@ def add_expense(
         )
 
     return RedirectResponse(
-        url="/?message=Expense%20added%20successfully.&message_type=success",
+        url="/?" + urlencode({"message": "Expense added successfully.", "message_type": "success"}),
         status_code=303,
     )
 
@@ -147,7 +148,7 @@ def edit_expense_page(request: Request, expense_id: int, message: str = "", mess
 
     if expense is None:
         return RedirectResponse(
-            url="/?message=Expense%20not%20found.&message_type=error",
+            url="/?" + urlencode({"message": "Expense not found.", "message_type": "error"}),
             status_code=303,
         )
 
@@ -175,7 +176,7 @@ def update_expense(
     data, error = validate_expense(title, amount, category, expense_date, note)
     if error:
         return RedirectResponse(
-            url=f"/edit/{expense_id}?message=" + error.replace(" ", "%20") + "&message_type=error",
+            url=f"/edit/{expense_id}?" + urlencode({"message": error, "message_type": "error"}),
             status_code=303,
         )
 
@@ -185,7 +186,7 @@ def update_expense(
         ).fetchone()
         if existing is None:
             return RedirectResponse(
-                url="/?message=Expense%20not%20found.&message_type=error",
+                url="/?" + urlencode({"message": "Expense not found.", "message_type": "error"}),
                 status_code=303,
             )
         connection.execute(
@@ -199,7 +200,7 @@ def update_expense(
         )
 
     return RedirectResponse(
-        url="/?message=Expense%20updated%20successfully.&message_type=success",
+        url="/?" + urlencode({"message": "Expense updated successfully.", "message_type": "success"}),
         status_code=303,
     )
 
@@ -212,13 +213,11 @@ def delete_expense(expense_id: int):
         )
 
     if cursor.rowcount == 0:
-        message = "Expense%20not%20found."
-        message_type = "error"
+        params = urlencode({"message": "Expense not found.", "message_type": "error"})
     else:
-        message = "Expense%20deleted%20successfully."
-        message_type = "success"
+        params = urlencode({"message": "Expense deleted successfully.", "message_type": "success"})
 
     return RedirectResponse(
-        url=f"/?message={message}&message_type={message_type}",
+        url=f"/?{params}",
         status_code=303,
     )

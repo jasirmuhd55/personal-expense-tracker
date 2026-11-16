@@ -10,6 +10,9 @@ def validate_expense(title, amount_text, category, expense_date, note):
     if not title:
         return None, "Title is required."
 
+    if len(title) > 150:
+        return None, "Title must be 150 characters or fewer."
+
     try:
         amount = float(amount_text)
     except (TypeError, ValueError):

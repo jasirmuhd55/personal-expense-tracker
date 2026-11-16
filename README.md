@@ -118,3 +118,19 @@ The SQLite database and expenses table are initialized automatically when the ap
 - No cloud deployment.
 - No additional functionality beyond the five requested requirements.
 - The local development server is intended for this practical assessment, not production hosting.
+
+## What was skipped and why
+
+Nothing from the five core requirements was skipped. The following items were intentionally left out because they were either explicitly excluded by the spec or out of scope for a 2-hour assessment:
+
+- **Authentication / multi-user support** — excluded by spec.
+- **Deployment** — excluded by spec; the app runs locally.
+- **Test suite** — excluded by spec.
+- **Multi-currency support** — excluded by spec; the currency symbol is hardcoded to ₹ (Indian Rupee).
+- **ORM (e.g. SQLAlchemy)** — not needed; Python's built-in `sqlite3` with parameterized queries is sufficient and keeps the dependency list minimal.
+
+## Known rough edges
+
+- Flash messages (success/error) are passed as URL query parameters, so refreshing the redirected page replays the message. A session-based flash system (e.g. via `starlette.middleware.sessions`) would avoid this but adds complexity beyond the scope of this assessment.
+- The monthly summary always shows the **current calendar month**. There is no way to navigate to past months' summaries; that would require additional UI and was not part of the requirements.
+- No pagination on the expense list. For a small personal tracker this is fine, but a large dataset would need it.
