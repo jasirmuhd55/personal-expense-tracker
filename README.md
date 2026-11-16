@@ -56,8 +56,9 @@ expense_tracker_fastapi/
 ├── static/
 │   └── style.css                 # All styling
 │
-├── expenses.db                   # Auto-created on first run (not in git)
+├── expenses.db                   # Auto-created on first run
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
