@@ -1,136 +1,164 @@
-# MyExpense
+# MyExpense — Personal Expense Tracker
 
-Personal expense management application built with Python, FastAPI, SQLite, HTML, and CSS.
+A lightweight personal expense tracking web app built with **Python** and **FastAPI**.
+Track your daily spending, view monthly summaries, and filter expenses — all from a clean local web interface.
 
-## Features
+---
 
-1. Add expenses with title, amount, category, date, and optional note.
-2. View expenses sorted by date, newest first.
-3. Edit and delete expenses.
-4. View the current month's total and category-wise breakdown.
-5. Filter by category, date range, and partial title match. Filters can be combined.
+## 📋 What It Does
 
-Categories: Food, Transport, Shopping, Bills, Entertainment, Other.
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | **Add Expense** | Log an expense with title, amount, category, date, and an optional note |
+| 2 | **View All Expenses** | See all expenses in a table, sorted by most recent date first |
+| 3 | **Edit / Delete** | Update or remove any expense with instant feedback |
+| 4 | **Monthly Summary** | View current month's total spend and a breakdown by category |
+| 5 | **Filter & Search** | Filter by category, date range (from/to), and partial title match — filters can be combined |
 
-## Technologies
+**Supported categories:** Food · Transport · Shopping · Bills · Entertainment · Other
 
-- Python
-- FastAPI
-- SQLite using Python's built-in `sqlite3`
-- HTML and CSS
-- Jinja2 templates
+---
 
-## Project structure
+## 🛠️ Tech Stack
 
-```text
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| Backend | Python + FastAPI | Fast, modern, easy to structure |
+| Database | SQLite (built-in `sqlite3`) | Zero setup, runs locally, no extra dependencies |
+| Templates | Jinja2 | Server-side HTML rendering, clean separation |
+| Frontend | HTML + CSS | Simple, no JavaScript frameworks needed |
+
+---
+
+## 📁 Project Structure
+
+```
 expense_tracker_fastapi/
-├── app.py                    # Backward-compatible Uvicorn entry point
+│
+├── app.py                        # Entry point → uvicorn app:app --reload
+│
 ├── expense_tracker/
-│   ├── __init__.py
-│   ├── config.py             # Project paths and expense categories
-│   ├── main.py               # FastAPI app setup and startup
-│   ├── validators.py         # Expense input validation
+│   ├── config.py                 # Paths + category list (single source of truth)
+│   ├── main.py                   # FastAPI app setup + DB init on startup
+│   ├── validators.py             # Input validation (title, amount, category, date)
+│   │
 │   ├── database/
-│   │   ├── __init__.py
-│   │   ├── connection.py     # SQLite connection helper
-│   │   └── schema.py         # Database table initialization
+│   │   ├── connection.py         # SQLite connection with WAL mode enabled
+│   │   └── schema.py             # Creates the expenses table on first run
+│   │
 │   └── routers/
-│       ├── __init__.py
-│       └── expenses.py       # Expense pages and CRUD routes
-├── expenses.db          # Created automatically on first run
-├── requirements.txt
-├── README.md
+│       └── expenses.py           # All routes: list, add, edit, delete
+│
 ├── templates/
-│   ├── index.html
-│   └── edit.html
-└── static/
-    └── style.css
+│   ├── index.html                # Main dashboard (list + add + filter + summary)
+│   └── edit.html                 # Edit expense form
+│
+├── static/
+│   └── style.css                 # All styling
+│
+├── expenses.db                   # Auto-created on first run (not in git)
+├── requirements.txt
+└── README.md
 ```
 
-The SQLite file remains in the project root so an existing `expenses.db` keeps
-working. Python code is grouped under `expense_tracker/`; templates and static
-assets stay separate because they are served directly by FastAPI.
+---
 
-## Run locally
+## 🚀 How to Run Locally
 
-Open a terminal in this project folder.
+> **Requirements:** Python 3.9 or higher
 
-### 1. Create a virtual environment
+### Step 1 — Create a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-### 2. Activate it
+### Step 2 — Activate it
 
-Windows PowerShell:
-
+**Windows (PowerShell):**
 ```powershell
 venv\Scripts\Activate.ps1
 ```
 
-Windows Command Prompt:
-
+**Windows (Command Prompt):**
 ```bat
 venv\Scripts\activate.bat
 ```
 
-macOS/Linux:
-
+**macOS / Linux:**
 ```bash
 source venv/bin/activate
 ```
 
-### 3. Install dependencies
+### Step 3 — Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Start the local server
+### Step 4 — Start the server
 
 ```bash
 uvicorn app:app --reload
 ```
 
-Open the application:
+### Step 5 — Open in your browser
 
-```text
+```
 http://127.0.0.1:8000
 ```
 
-The SQLite database and expenses table are initialized automatically when the application starts.
+> The SQLite database (`expenses.db`) and the `expenses` table are created **automatically** on first startup. No manual setup needed.
 
-## Implementation decisions
+---
 
-- FastAPI handles HTTP routes and form submissions.
-- Jinja2 renders HTML pages on the server.
-- SQLite stores the expense records locally in `expenses.db`.
-- Python's built-in `sqlite3` module is used instead of an ORM to keep the project straightforward.
-- Parameterized SQL statements are used for database values.
-- Monthly totals and category breakdowns are calculated in SQL using `SUM` and `GROUP BY`.
-- No deployment is required; the application runs on the local computer.
+## ⚙️ Implementation Decisions
 
-## Scope and limitations
+- **No ORM** — Used Python's built-in `sqlite3` with parameterized queries. Keeps the project simple, secure against SQL injection, and dependency-free.
+- **Server-side rendering** — Jinja2 templates render HTML on the backend. No JavaScript framework is needed for this scope.
+- **SQL aggregation** — Monthly totals and category breakdowns are computed directly in SQL using `SUM` and `GROUP BY`, keeping the Python code clean.
+- **WAL mode** — SQLite is configured with `PRAGMA journal_mode=WAL` to prevent database locking issues under concurrent requests.
+- **Single source of truth** — Categories are defined once in `config.py` and used in both the validator and the router — no duplication.
+- **Parameterized filters** — All filter conditions (category, date range, title search) are built dynamically and passed as SQL parameters, never string-interpolated.
 
-- Single-user local application.
-- No authentication or multi-user support.
-- No cloud deployment.
-- No additional functionality beyond the five requested requirements.
-- The local development server is intended for this practical assessment, not production hosting.
+---
 
-## What was skipped and why
+## ✅ Requirements Coverage
 
-Nothing from the five core requirements was skipped. The following items were intentionally left out because they were either explicitly excluded by the spec or out of scope for a 2-hour assessment:
+All five requirements from the assessment are fully implemented:
 
-- **Authentication / multi-user support** — excluded by spec.
-- **Deployment** — excluded by spec; the app runs locally.
-- **Test suite** — excluded by spec.
-- **Multi-currency support** — excluded by spec; the currency symbol is hardcoded to ₹ (Indian Rupee).
-- **ORM (e.g. SQLAlchemy)** — not needed; Python's built-in `sqlite3` with parameterized queries is sufficient and keeps the dependency list minimal.
+- [x] Add expense with title, amount, category, date (defaults to today), and optional note
+- [x] View all expenses sorted by date descending, all fields shown
+- [x] Edit and delete any expense
+- [x] Monthly summary — total spend + category breakdown for the current month
+- [x] Filter by category, date range, and partial title/note match
 
-## Known rough edges
+---
 
-- Flash messages (success/error) are passed as URL query parameters, so refreshing the redirected page replays the message. A session-based flash system (e.g. via `starlette.middleware.sessions`) would avoid this but adds complexity beyond the scope of this assessment.
-- The monthly summary always shows the **current calendar month**. There is no way to navigate to past months' summaries; that would require additional UI and was not part of the requirements.
-- No pagination on the expense list. For a small personal tracker this is fine, but a large dataset would need it.
+## ⏭️ What Was Skipped & Why
+
+Nothing from the five core requirements was skipped.
+
+The following were **intentionally left out** — either excluded by the spec or out of scope for a 2-hour assessment:
+
+| Skipped | Reason |
+|---------|--------|
+| Authentication / multi-user | Explicitly excluded by spec |
+| Deployment | Explicitly excluded by spec |
+| Test suite | Explicitly excluded by spec |
+| Multi-currency | Spec says "your local currency" — hardcoded to ₹ |
+| ORM (SQLAlchemy etc.) | Built-in `sqlite3` is sufficient and simpler |
+
+---
+
+## 🎨 Frontend Note
+
+My primary strength is **backend development**. I have a basic working knowledge of HTML and CSS. The frontend UI design and styling in this project was developed with the assistance of AI tools. All backend logic — routing, validation, database queries, and application structure — was written independently.
+
+---
+
+## ⚠️ Known Rough Edges
+
+- **Flash messages via URL params** — Success/error messages are passed as query parameters (`?message=...`). Refreshing the page after an action replays the message. A proper session-based flash would fix this but adds complexity beyond the scope of this assessment.
+- **No month navigation** — The monthly summary always shows the current calendar month. Navigating to past months was not part of the requirements.
+- **No pagination** — All expenses load at once. Fine for personal use; a large dataset would benefit from pagination.
