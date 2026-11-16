@@ -53,6 +53,16 @@ assets stay separate because they are served directly by FastAPI.
 
 ## Run locally
 
+### Quick Start (Windows)
+Double-click `run.bat` or run:
+```bat
+run.bat
+```
+This automatically activates your virtual environment, launches the FastAPI server, and opens `http://127.0.0.1:8000` in your default browser.
+
+---
+
+### Manual Setup
 Open a terminal in this project folder.
 
 ### 1. Create a virtual environment
