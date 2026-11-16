@@ -26,6 +26,9 @@ def index(
     today = date.today()
     current_month = today.strftime("%Y-%m")
 
+    if message_type not in ("success", "error", ""):
+        message_type = ""
+
     for label, value in (("From date", from_date), ("To date", to_date)):
         if value:
             try:

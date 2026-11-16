@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}?v=1.2">
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
             <span class="count-pill">ID #{{ expense.id }}</span>
         </div>
 
-        <form method="POST" class="form-grid" style="grid-template-columns: 1fr 1fr;">
+        <form method="POST" action="/edit/{{ expense.id }}" class="form-grid" style="grid-template-columns: 1fr 1fr;">
             <div class="field-group full-width">
                 <label for="title">Title</label>
                 <input type="text" id="title" name="title" maxlength="150" value="{{ expense.title }}" required>

@@ -43,6 +43,10 @@ venv.bak/
 *.sqlite
 *.sqlite3
 expenses.db
+*.db-shm
+*.db-wal
+*.sqlite-shm
+*.sqlite-wal
 
 # Environment variables & secrets
 .env
