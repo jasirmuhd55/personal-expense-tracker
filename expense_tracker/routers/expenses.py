@@ -62,8 +62,9 @@ def index(
         parameters.append(to_date)
 
     if title.strip():
-        conditions.append("title LIKE ?")
-        parameters.append(f"%{title.strip()}%")
+        conditions.append("(title LIKE ? OR note LIKE ?)")
+        search_term = f"%{title.strip()}%"
+        parameters.extend([search_term, search_term])
 
     query = "SELECT * FROM expenses"
     if conditions:
