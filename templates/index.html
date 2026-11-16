@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}?v=1.2">
 </head>
 <body>
 
@@ -140,9 +140,9 @@
                 </div>
 
                 <div class="field-group">
-                    <label for="amount">Amount (₹)</label>
-                    <div class="input-with-icon">
-                        <span class="input-icon-prefix">₹</span>
+                    <label for="amount">Amount</label>
+                    <div class="input-currency-group">
+                        <span class="currency-addon">₹</span>
                         <input type="number" id="amount" name="amount" min="0.01" step="0.01" required placeholder="0.00">
                     </div>
                 </div>

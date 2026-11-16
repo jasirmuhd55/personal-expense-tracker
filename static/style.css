@@ -502,6 +502,54 @@ label {
   gap: 4px;
 }
 
+/* Currency Input Group */
+.input-currency-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s ease;
+}
+
+.input-currency-group:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.currency-addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background-color: var(--slate-100);
+  color: var(--slate-700);
+  font-weight: 700;
+  font-size: 15px;
+  border-right: 1px solid var(--slate-300);
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.input-currency-group input[type="number"],
+.input-currency-group input {
+  flex: 1;
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 10px 14px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--slate-800);
+}
+
 .input-with-icon {
   position: relative;
   display: flex;
